@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html ng-app="overwatch">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script type="application/javascript" src="js/data.js"></script>
+    <script type="application/javascript" src="js/newData.js"></script>
+    <script type="application/javascript" src="js/logic.js"></script>
+    <link href=css/style.css type="text/css" rel="stylesheet">
+    <link href="css/balloon.css" type="text/css" rel="stylesheet">
+    <title>Overwatch Team Generator</title>
+    <meta name="viewport" content="width=device-width">
+</head>
+
+<body ontouchstart="">
+    <div id="iconContainer">
+        <div id="headerContainer">
+            <h1 id="Header">Overwatch Team Generator</h1>
+        </div>
+        <div id="SubContainer">
+            <h5 id="Subheader">Enter your enemy team comp and the map</h5>
+            <div id="heroContainer" ng-controller="HeroIcons as hero">
+                <img class="heroIcon" ng-repeat="hero in hero.heroes" enemy="{{hero.name}}" ng-src=images/CharacterIcons/{{hero.name}}.png onclick="enemyIconClicked(this)">
+            </div>
+            <div id="maps" ng-controller="MapIcons">
+                <div class="MapContainer" ng-repeat="map in maps">
+                    <img class="mapIcon" id={{map.name}} ng-src=images/Maps/{{map.name}}.jpg map={{map.name}} onclick="mapClicked(this)">
+                    <p>{{map.name}}</p>
+                </div>
+                <div id="checkboxContainer">
+                    <p id="metaDropdownContainer">Select a meta:
+                        <select id="metaDropdown" onchange="determineTeamCounters()">
+                            <option value="NoMeta">No Meta</option>
+                            <option value="TwoTwoTwoMeta">Tank, Healer, Offense</option>
+                            <option value="TankMeta">Tank Support</option>
+                        </select>
+                    </p>
+                    <p id="subMapDropdownContainer">Select the submap:
+                        <select id="subMapDropdown" onchange="determineTeamCounters()">
+                            <option value="NoSubMap">Average of all maps</option>
+                        </select>
+                    </p>
+                    <p class="attackDefenseLabel">
+                        follow Tournament meta?
+                        <input id="tournamentCheckbox" type="checkbox" name="tournament" onclick="determineTeamCounters()">
+                    </p>
+                    <div id="AttackDefenseSelect">
+                        <div class="inputContainer">
+                            <p class="attackDefenseLabel">Attack
+                                <input id="attack" onchange="determineTeamCounters()" type="radio" name="attackDefense" value="attack" checked>
+                            </p>
+                            <p class="attackDefenseLabel">Defense
+                                <input id="defense" onchange="determineTeamCounters()" type="radio" name="attackDefense" value="defense">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h4 class="teamLabel">Enemy Team (click to remove):</h4>
+            <div id="enemyTeamList">
+                <div ng-repeat="i in [1,2,3,4,5,6]" id="{{'enemyTeam' + i}}" hero="" class="enemyTeamIcon empty" src="" onclick="removeEnemy(this)"></div>
+            </div>
+            <h4 class="teamLabel">Recommend Team:</h4>
+            <div id="recommendTeamList">
+                <div ng-repeat="i in [1,2,3,4,5,6]" type="button" id="{{ 'recommendTeam' + i }}" data-balloon="" data-balloon-pos="top" hero="" class="recommendedTeamIcon empty" src=""></div>
+            </div>
+            <div id="footer">
+                <p>Tournament data from <a href="https://www.overbuff.com">Overbuff</a> | Hero weakness data from <a href="http://overwatch.gamepedia.com/">Overwatch Gamepedia</a> | Map data from <a href="http://overwatchcountersguide.com">/u/foxbarrington</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
